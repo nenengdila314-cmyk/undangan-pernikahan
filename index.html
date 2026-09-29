@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="Undangan Pernikahan Ijel & Hera — 17 Oktober 2026">
+<title>The Wedding of Ijel & Hera</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#080808;
+  --black2:#111111;
+  --gold:#c9a45c;
+  --gold2:#e4c982;
+  --cream:#f5efe3;
+  --muted:#b8b0a3;
+  --line:rgba(201,164,92,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--black);
+  color:var(--cream);
+  font-family:Montserrat,Arial,sans-serif;
+  font-weight:300;
+  line-height:1.8;
+}
+body.locked{overflow:hidden}
+a{color:inherit}
+h1,h2,h3,.script{font-family:"Cormorant Garamond",serif}
+.container{width:min(920px,92%);margin:auto}
+.section{padding:90px 0;position:relative}
+.section.dark{background:#0b0b0b}
+.kicker{
+  color:var(--gold2);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+.title{
+  font-size:clamp(38px,8vw,68px);
+  font-weight:500;
+  line-height:1.05;
+  margin:12px 0 20px;
+}
+.subtitle{color:var(--muted);max-width:650px;margin:0 auto}
+.gold-line{
+  width:70px;height:1px;background:var(--gold);
+  margin:25px auto;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:13px 25px;border:1px solid var(--gold);
+  color:var(--gold2);text-decoration:none;border-radius:999px;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  transition:.25s;background:transparent;cursor:pointer;
+}
+.btn:hover{background:var(--gold);color:#111}
+.hero{
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(201,164,92,.16),transparent 35%),
+    linear-gradient(180deg,#050505,#101010);
+}
+.hero:before{
+  content:"";position:absolute;inset:18px;border:1px solid rgba(201,164,92,.25);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;padding:40px 18px}
+.hero .small{letter-spacing:.35em;font-size:11px;color:var(--gold2)}
+.hero-names{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(62px,15vw,120px);
+  line-height:.85;margin:28px 0;
+  font-weight:500;
+}
+.hero-names span{display:block}
+.amp{font-size:.48em;color:var(--gold);margin:8px 0}
+.hero-date{letter-spacing:.2em;color:#ddd;font-size:12px;text-transform:uppercase}
+.open-btn{margin-top:35px}
+.corner{
+  position:absolute;width:110px;height:110px;border-color:var(--gold);
+  opacity:.55;
+}
+.corner.tl{top:35px;left:35px;border-top:1px solid;border-left:1px solid}
+.corner.tr{top:35px;right:35px;border-top:1px solid;border-right:1px solid}
+.corner.bl{bottom:35px;left:35px;border-bottom:1px solid;border-left:1px solid}
+.corner.br{bottom:35px;right:35px;border-bottom:1px solid;border-right:1px solid}
+
+.intro{text-align:center}
+.bismillah{font-size:28px;color:var(--gold2);margin-bottom:25px}
+.verse{font-family:"Cormorant Garamond",serif;font-size:23px;line-height:1.6}
+.names-card{
+  margin:35px auto 0;padding:30px;border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(201,164,92,.06),rgba(255,255,255,.01));
+}
+.couple{font-family:"Cormorant Garamond",serif;font-size:42px;color:var(--gold2)}
+.parents{color:var(--muted);font-size:12px}
+
+.events{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:35px}
+.event{
+  border:1px solid var(--line);padding:35px 22px;text-align:center;
+  background:#0e0e0e;
+}
+.event h3{font-size:34px;color:var(--gold2);margin:8px 0}
+.event .date{font-weight:500;letter-spacing:.08em}
+.event p{color:var(--muted);font-size:13px}
+.event .time{color:#eee;margin:15px 0}
+.event .btn{margin-top:8px}
+
+.count-wrap{text-align:center}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:600px;margin:35px auto 0}
+.timebox{border:1px solid var(--line);padding:18px 8px;background:#0d0d0d}
+.timebox b{display:block;font-family:"Cormorant Garamond",serif;font-size:42px;color:var(--gold2);line-height:1}
+.timebox span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em}
+
+.gallery{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:35px;
+}
+.photo{
+  min-height:260px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  background:
+    linear-gradient(135deg,rgba(201,164,92,.13),rgba(255,255,255,.02));
+  color:var(--muted);font-size:12px;text-align:center;padding:20px;
+}
+.photo.large{grid-row:span 2;min-height:532px}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+.timeline{max-width:650px;margin:35px auto 0}
+.item{display:grid;grid-template-columns:110px 1fr;gap:25px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.item .hour{color:var(--gold2);font-family:"Cormorant Garamond",serif;font-size:26px}
+.item strong{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:500}
+.item p{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+.info-box{
+  max-width:700px;margin:30px auto 0;padding:30px;border:1px solid var(--line);
+  background:#0d0d0d;text-align:center;
+}
+.info-box p{color:var(--muted);font-size:13px}
+
+.music{
+  position:fixed;right:18px;bottom:18px;z-index:20;width:48px;height:48px;border-radius:50%;
+  border:1px solid var(--gold);background:#111;color:var(--gold2);cursor:pointer;
+  display:none;
+}
+.music.show{display:block}
+
+.footer{text-align:center;padding:70px 20px;background:#050505}
+.footer .couple{font-size:46px}
+.footer p{color:var(--muted);font-size:12px}
+
+#opening{
+  position:fixed;inset:0;z-index:100;background:#060606;color:var(--cream);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+#opening .opening-inner{padding:30px;max-width:600px}
+#opening.hide{display:none}
+#opening h1{font-size:clamp(48px,12vw,82px);margin:12px 0;color:var(--gold2);line-height:.9}
+.guest{margin:20px 0;color:var(--muted);font-size:13px}
+.small-note{font-size:10px;color:#777;margin-top:18px}
+
+@media(max-width:650px){
+  .section{padding:70px 0}
+  .events{grid-template-columns:1fr}
+  .countdown{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:1fr}
+  .photo.large{grid-row:auto;min-height:280px}
+  .item{grid-template-columns:80px 1fr;gap:12px}
+  .corner{width:70px;height:70px}
+  .corner.tl,.corner.tr{top:22px}
+  .corner.bl,.corner.br{bottom:22px}
+  .corner.tl,.corner.bl{left:22px}
+  .corner.tr,.corner.br{right:22px}
+}
+</style>
+</head>
+
+<body class="locked">
+
+<!--
+  MUSIK:
+  Jika nanti kamu upload file musik bernama "musik.mp3" ke repository,
+  musik akan dimainkan setelah tombol "Buka Undangan" ditekan.
+-->
+<audio id="bgMusic" loop preload="auto">
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<div id="opening">
+  <div class="opening-inner">
+    <div class="kicker">The Wedding Of</div>
+    <h1>Ijel &amp; Hera</h1>
+    <div class="gold-line"></div>
+    <p class="guest">Kepada Yth.<br><strong>Bapak/Ibu/Saudara/i</strong><br>di tempat</p>
+    <button class="btn" id="openInvitation">💌 Buka Undangan</button>
+    <div class="small-note">Mohon maaf apabila terdapat kesalahan penulisan nama/gelar.</div>
+  </div>
+</div>
+
+<main>
+
+<section class="hero">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="hero-inner">
+    <div class="small">The Wedding Of</div>
+    <div class="hero-names">
+      <span>Ijel</span>
+      <span class="amp">&amp;</span>
+      <span>Hera</span>
+    </div>
+    <div class="hero-date">17 Oktober 2026</div>
+  </div>
+</section>
+
+<section class="section intro">
+  <div class="container">
+    <div class="bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <div class="kicker">Dengan memohon ridho Allah SWT</div>
+    <p class="verse">
+      “Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
+      untukmu pasangan dari jenismu sendiri, supaya kamu merasa tenteram
+      kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang.”
+    </p>
+    <div class="names-card">
+      <div class="couple">Gelar Adhi Pratama, A.Md. Kep.</div>
+      <div class="parents">Putra dari Bapak Dadan Akmaludin &amp; Ibu Winwin Gantini</div>
+      <div style="font-family:'Cormorant Garamond';font-size:32px;color:#c9a45c;margin:12px">♥</div>
+      <div class="couple">Cucu Herawati</div>
+      <div class="parents">Putri dari Bapak Nana Juhana &amp; Ibu Kartika</div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">Save The Date</div>
+      <h2 class="title">Menuju Hari Bahagia</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="count-wrap">
+      <div class="countdown">
+        <div class="timebox"><b id="days">0</b><span>Hari</span></div>
+        <div class="timebox"><b id="hours">0</b><span>Jam</span></div>
+        <div class="timebox"><b id="minutes">0</b><span>Menit</span></div>
+        <div class="timebox"><b id="seconds">0</b><span>Detik</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">Wedding Events</div>
+      <h2 class="title">Rangkaian Acara</h2>
+      <div class="gold-line"></div>
+    </div>
+
+    <div class="events">
+      <article class="event">
+        <div class="kicker">Akad Nikah</div>
+        <h3>17 Oktober 2026</h3>
+        <div class="time">08.00 WIB – selesai</div>
+        <p>
+          Dsn. Cibonteng RT 06/RW 14,<br>
+          Ds. Tanjungmulya, Kec. Panumbangan,<br>
+          Kab. Ciamis, Jawa Barat 46263
+        </p>
+        <a class="btn" href="https://maps.app.goo.gl/UWL8vJSErQffxmpu7" target="_blank" rel="noopener">
+          📍 Lihat Lokasi
+        </a>
+      </article>
+
+      <article class="event">
+        <div class="kicker">Resepsi</div>
+        <h3>17 Oktober 2026</h3>
+        <div class="time">10.00 WIB – selesai</div>
+        <p>
+          Dsn. Cibonteng RT 06/RW 14,<br>
+          Ds. Tanjungmulya, Kec. Panumbangan,<br>
+          Kab. Ciamis, Jawa Barat 46263
+        </p>
+        <a class="btn" href="https://maps.app.goo.gl/UWL8vJSErQffxmpu7" target="_blank" rel="noopener">
+          📍 Lihat Lokasi
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container" style="text-align:center">
+    <div class="kicker">Wedding Details</div>
+    <h2 class="title">Susunan Acara</h2>
+    <div class="gold-line"></div>
+    <div class="timeline">
+      <div class="item">
+        <div class="hour">08.00</div>
+        <div><strong>Akad Nikah</strong><p>Prosesi akad nikah dimulai.</p></div>
+      </div>
+      <div class="item">
+        <div class="hour">10.00</div>
+        <div><strong>Resepsi</strong><p>Silaturahmi dan ramah tamah.</p></div>
+      </div>
+      <div class="item">
+        <div class="hour">Selesai</div>
+        <div><strong>Penutup</strong><p>Terima kasih atas doa dan kehadirannya.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">Our Memories</div>
+      <h2 class="title">Galeri</h2>
+      <div class="gold-line"></div>
+      <p class="subtitle">Foto-foto terbaik Ijel &amp; Hera akan ditampilkan di sini.</p>
+    </div>
+    <div class="gallery">
+      <div class="photo large">📷<br>Foto utama mempelai<br><small>(akan diganti saat foto diupload)</small></div>
+      <div class="photo">📷<br>Foto mempelai</div>
+      <div class="photo">📷<br>Foto mempelai</div>
+      <div class="photo">📷<br>Foto keluarga</div>
+      <div class="photo">📷<br>Foto keluarga</div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">RSVP</div>
+      <h2 class="title">Konfirmasi Kehadiran</h2>
+      <div class="gold-line"></div>
+      <div class="info-box">
+        <p>Nomor WhatsApp RSVP akan ditambahkan setelah kamu memberikannya.</p>
+        <button class="btn" type="button" onclick="alert('Nomor WhatsApp RSVP belum diisi.')">
+          💬 RSVP WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">Wedding Gift</div>
+      <h2 class="title">Amplop Digital</h2>
+      <div class="gold-line"></div>
+      <div class="info-box">
+        <p>Informasi rekening / hadiah akan ditambahkan setelah datanya tersedia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="kicker">Dress Code</div>
+      <h2 class="title">Black &amp; Gold</h2>
+      <div class="gold-line"></div>
+      <p class="subtitle">Untuk menambah kesan elegan, tamu dipersilakan mengenakan nuansa hitam, gold, atau warna netral.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="kicker">Thank You</div>
+  <div class="couple">Ijel &amp; Hera</div>
+  <p>17 Oktober 2026</p>
+  <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+  <div class="gold-line"></div>
+  <p>Made with love ♥</p>
+</footer>
+
+</main>
+
+<button class="music" id="musicBtn" aria-label="Putar atau jeda musik">♫</button>
+
+<script>
+const weddingDate = new Date("2026-10-17T08:00:00+07:00").getTime();
+
+function updateCountdown(){
+  const now = Date.now();
+  let distance = weddingDate - now;
+  if(distance < 0) distance = 0;
+
+  const d = Math.floor(distance / 86400000);
+  const h = Math.floor((distance % 86400000) / 3600000);
+  const m = Math.floor((distance % 3600000) / 60000);
+  const s = Math.floor((distance % 60000) / 1000);
+
+  document.getElementById("days").textContent = d;
+  document.getElementById("hours").textContent = h;
+  document.getElementById("minutes").textContent = m;
+  document.getElementById("seconds").textContent = s;
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+const opening = document.getElementById("opening");
+const openBtn = document.getElementById("openInvitation");
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+openBtn.addEventListener("click", async () => {
+  opening.classList.add("hide");
+  document.body.classList.remove("locked");
+  musicBtn.classList.add("show");
+
+  try {
+    await music.play();
+    musicBtn.textContent = "❚❚";
+  } catch(e) {
+    musicBtn.textContent = "♫";
+  }
+});
+
+musicBtn.addEventListener("click", async () => {
+  if(music.paused){
+    try { await music.play(); musicBtn.textContent = "❚❚"; } catch(e) {}
+  } else {
+    music.pause();
+    musicBtn.textContent = "♫";
+  }
+});
+</script>
+</body>
+</html>
