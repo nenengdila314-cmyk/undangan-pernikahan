@@ -559,7 +559,7 @@ const target=new Date('2026-10-17T00:00:00+07:00').getTime();function tick(){let
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e)); const eventObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.18}); document.querySelectorAll('.reveal-event').forEach(e=>eventObs.observe(e));
 const APP_SCRIPT_URL='PASTE_APPS_SCRIPT_URL_HERE';
 const GUEST_API=APP_SCRIPT_URL;
-const VISITOR_API=https://script.google.com/macros/s/AKfycbxkVMBtlxWsttU6MIaWp5HQw307j3Pnmj2WI3cGrkpzK1SNB3VWPRQwQ38wB2PfK-kECA/exec;
+const VISITOR_API=APP_SCRIPT_URL;
 const visitCountEl=document.getElementById('visitCount');
 async function registerVisit(){if(!VISITOR_API||VISITOR_API.includes('PASTE_APPS_SCRIPT_URL_HERE'))return;try{const r=await fetch(VISITOR_API+'?action=visit&ref='+encodeURIComponent(location.href)+'&t='+Date.now());const data=await r.json();if(data&&data.count&&visitCountEl)visitCountEl.innerHTML='Undangan ini telah dibuka <b>'+Number(data.count).toLocaleString('id-ID')+'</b> kali';}catch(e){}}
 registerVisit();
