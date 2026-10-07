@@ -557,7 +557,7 @@ musicBtn.addEventListener('click',async()=>{if(music.paused){try{await music.pla
 const heroSlides=[...document.querySelectorAll('.hero-slide')];let heroIndex=0;setInterval(()=>{if(!heroSlides.length)return;heroSlides[heroIndex].classList.remove('active');heroIndex=(heroIndex+1)%heroSlides.length;heroSlides[heroIndex].classList.add('active')},5200);
 const target=new Date('2026-10-17T00:00:00+07:00').getTime();function tick(){let x=Math.max(0,target-Date.now());let d=Math.floor(x/86400000);x%=86400000;let h=Math.floor(x/3600000);x%=3600000;let m=Math.floor(x/60000);let sec=Math.floor((x%60000)/1000);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};set('d',d);set('h',String(h).padStart(2,'0'));set('m',String(m).padStart(2,'0'));set('s',String(sec).padStart(2,'0'))}tick();setInterval(tick,1000);
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e)); const eventObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.18}); document.querySelectorAll('.reveal-event').forEach(e=>eventObs.observe(e));
-const APP_SCRIPT_URL='PASTE_APPS_SCRIPT_URL_HERE';
+const APP_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzeuQOfTu_7zXzBvH_yg6lBnqs75MTDnjZkwJGK0khPhaEcH8h7TurzuzlHZQ7SkyRs/exec';
 const GUEST_API=APP_SCRIPT_URL;
 const VISITOR_API=APP_SCRIPT_URL;
 const visitCountEl=document.getElementById('visitCount');
