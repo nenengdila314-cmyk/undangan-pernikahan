@@ -561,42 +561,49 @@ const APP_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzeuQOfTu_7zXzBvH_
 const GUEST_API=APP_SCRIPT_URL;
 const VISITOR_API=APP_SCRIPT_URL;
 const visitCountEl=document.getElementById('visitCount');
-async function registerVisit(){if(!VISITOR_API||VISITOR_API.includes('PASTE_APPS_SCRIPT_URL_HERE'))return;try{const r=await fetch(VISITOR_API+'?action=visit&ref='+encodeURIComponent(location.href)+'&t='+Date.now());const data=await r.json();if(data&&data.count&&visitCountEl)visitCountEl.innerHTML='Undangan ini telah dibuka <b>'+Number(data.count).toLocaleString('id-ID')+'</b> kali';}catch(e){}}
+async function registerVisit(){if(!VISITOR_API||VISITOR_API.includes('PASTE_APPS_SCRIPT_URL_HERE'))return;try{const r=await fetch(VISITOR_API+'?action=visit&ref='+encodeURIComponent(location.href)+'&t='+Date.now(),{cache:'no-store'});const data=await r.json();if(data&&data.count&&visitCountEl)visitCountEl.innerHTML='Undangan ini telah dibuka <b>'+Number(data.count).toLocaleString('id-ID')+'</b> kali';}catch(e){}}
 registerVisit();
 const guestForm=document.getElementById('guestForm'),guestStatus=document.getElementById('guestStatus'),guestList=document.getElementById('guestList');
 function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-async function loadGuestbook(){try{const r=await fetch(GUEST_API+'?t='+Date.now());const data=await r.json();guestList.innerHTML=data.slice().reverse().map(x=>'<div class="guest-item"><strong>'+escapeHtml(x.nama)+'</strong><span class="attendance">'+escapeHtml(x.kehadiran)+'</span><p>'+escapeHtml(x.ucapan)+'</p></div>').join('')||'<div class="guest-small">Belum ada ucapan. Jadilah yang pertama ♡</div>';}catch(err){guestList.innerHTML='<div class="guest-small">Belum ada ucapan. Silakan kembali lagi sebentar.</div>';}}
+async function getGuestbookData(){
+  const r=await fetch(GUEST_API+'?t='+Date.now(),{cache:'no-store'});
+  const result=await r.json();
+  return Array.isArray(result)?result:(Array.isArray(result.data)?result.data:[]);
+}
+async function loadGuestbook(){
+  try{
+    const data=await getGuestbookData();
+    guestList.innerHTML=data.slice().reverse().map(x=>'<div class="guest-item"><strong>'+escapeHtml(x.nama)+'</strong><span class="attendance">'+escapeHtml(x.kehadiran)+'</span><p>'+escapeHtml(x.ucapan)+'</p></div>').join('')||'<div class="guest-small">Belum ada ucapan. Jadilah yang pertama ♡</div>';
+    return data;
+  }catch(err){
+    guestList.innerHTML='<div class="guest-small">Belum ada ucapan. Silakan kembali lagi sebentar.</div>';
+    return [];
+  }
+}
 guestForm.addEventListener('submit',async e=>{
   e.preventDefault();
-  const n=document.getElementById('guestName').value.trim();
-  const a=document.getElementById('guestAttendance').value;
-  const m=document.getElementById('guestMessage').value.trim();
+  const n=document.getElementById('guestName').value.trim(),a=document.getElementById('guestAttendance').value,m=document.getElementById('guestMessage').value.trim();
   if(!n||!a||!m)return;
-
   guestStatus.textContent='Mengirim ucapan…';
-
-  // Kirim sebagai POST agar nama/ucapan tidak dimasukkan ke URL.
-  // mode no-cors diperlukan karena Apps Script berada di domain berbeda.
-  const body=new URLSearchParams();
-  body.set('nama',n);
-  body.set('kehadiran',a);
-  body.set('ucapan',m);
-
+  const body=new URLSearchParams({nama:n,kehadiran:a,ucapan:m});
   try{
-    await fetch(GUEST_API,{
-      method:'POST',
-      mode:'no-cors',
-      cache:'no-store',
-      headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-      body:body.toString()
-    });
+    // POST sengaja memakai mode no-cors agar GitHub Pages tidak terhalang CORS Apps Script.
+    // Karena respons POST tidak dapat dibaca browser, keberhasilan diverifikasi dengan GET setelahnya.
+    await fetch(GUEST_API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:body.toString(),cache:'no-store'});
 
-    // Respons cross-domain tidak bisa dibaca dengan mode no-cors.
-    // Apps Script menerima POST melalui doPost(); setelah jeda singkat,
-    // ambil ulang daftar ucapan dari endpoint GET.
-    guestStatus.textContent='Ucapan berhasil dikirim. Terima kasih ♡';
-    guestForm.reset();
-    setTimeout(loadGuestbook,1500);
+    let found=false;
+    for(let i=0;i<5;i++){
+      await new Promise(resolve=>setTimeout(resolve,1200));
+      const data=await loadGuestbook();
+      found=data.some(x=>String(x.nama||'').trim()===n && String(x.ucapan||'').trim()===m);
+      if(found)break;
+    }
+    if(found){
+      guestStatus.textContent='Ucapan berhasil dikirim. Terima kasih ♡';
+      guestForm.reset();
+    }else{
+      guestStatus.textContent='Ucapan belum tersimpan. Silakan coba lagi.';
+    }
   }catch(err){
     guestStatus.textContent='Ucapan belum tersimpan. Silakan coba lagi.';
     console.error(err);
