@@ -528,7 +528,7 @@ html{scroll-behavior:auto!important}
   <div class="gift-icon">♔</div>
   <p class="gift-lead">Doa Restu Bapak/Ibu/Saudara/i adalah hadiah terindah bagi kami. Namun apabila berkenan memberikan tanda kasih, kami menyediakan fasilitas wedding gift.</p>
   <div class="gift-grid-v12">
-    <div class="qris-box"><div class="tool-label">QRIS</div><div class="qris-placeholder">QRIS</div><div class="guest-small">Tempat barcode QRIS</div></div>
+    <div class="qris-box"><div class="tool-label">QRIS</div><img src="qr-dana.jpg" alt="QRIS DANA Cucu Herawati" class="qris-image"><div class="guest-small">Scan untuk memberikan tanda kasih</div></div>
     <div class="dana-box"><div class="tool-label">DANA</div><div class="dana-number">089526645020</div><div class="dana-name">a.n. Cucu Herawati</div><button class="btn copy-dana" type="button" data-copy="089526645020">Salin Nomor DANA</button></div>
   </div>
   <p class="gift-thanks">Terimakasih atas doa dan kasih sayangnya.</p>
@@ -604,4 +604,74 @@ scrollBtn?.addEventListener('click',()=>autoScrollRunning?stopAutoScroll():start
 },{passive:true}));
 window.addEventListener('keydown',e=>{if(autoScrollRunning && ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(e.key)) stopAutoScroll();});
 
-</script></body></html>
+</script>
+<style>
+/* FINAL POLISH — hero slideshow, spacing, QRIS and softer auto-scroll */
+.hero{background:#080706!important;}
+.hero-slides{display:block!important;inset:0!important;}
+.hero-slide{filter:saturate(.82) brightness(.62)!important;opacity:0!important;transform:scale(1.035)!important;}
+.hero-slide.active{opacity:.78!important;transform:scale(1)!important;}
+.hero-slides:after{background:linear-gradient(180deg,rgba(5,4,3,.18) 0%,rgba(5,4,3,.12) 38%,rgba(5,4,3,.68) 100%),radial-gradient(circle at 50% 35%,rgba(214,165,72,.10),transparent 34%)!important;}
+.hero-content{padding-top:8vh!important;padding-bottom:7vh!important;}
+.hero .kicker{margin-bottom:20px!important;}
+.hero-script{margin:24px auto 18px!important;}
+.hero .date{margin-top:16px!important;}
+.qris-image{display:block;width:min(245px,72vw);aspect-ratio:1/1;object-fit:contain;margin:10px auto 14px;background:#fff;padding:7px;border:1px solid rgba(184,139,67,.42);box-shadow:0 10px 30px rgba(50,35,15,.12);}
+.qris-box{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.top-control{cursor:pointer!important;pointer-events:auto!important;}
+</style>
+<script>
+// FINAL: slightly faster auto-scroll — still gentle enough to read.
+(function(){
+  const btn=document.getElementById('scrollBtn');
+  if(!btn) return;
+  // Replace the interval with a requestAnimationFrame loop for smoother fractional scrolling.
+  let timer=null, running=false, last=0, raf=null;
+  function stop(){
+    running=false;
+    if(raf) cancelAnimationFrame(raf);
+    raf=null; last=0;
+    btn.classList.remove('active');
+    btn.textContent='↓';
+    btn.setAttribute('aria-label','Aktifkan auto scroll');
+  }
+  function frame(ts){
+    if(!running) return;
+    if(!last) last=ts;
+    const dt=Math.min(40,ts-last); last=ts;
+    if(!document.body.classList.contains('lock')){
+      const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      if(window.scrollY>=max-3){stop();return;}
+      window.scrollBy(0, 0.040*dt); // ~40 px/second
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function start(){
+    if(running) return;
+    running=true;
+    btn.classList.add('active');
+    btn.textContent='Ⅱ';
+    btn.setAttribute('aria-label','Hentikan auto scroll');
+    last=0;
+    raf=requestAnimationFrame(frame);
+  }
+  // Remove the previous click handler by cloning the button.
+  const fresh=btn.cloneNode(true); btn.replaceWith(fresh);
+  fresh.addEventListener('click',()=>running?stop():start());
+  window.addEventListener('wheel',()=>{if(running)stop()},{passive:true});
+  window.addEventListener('touchstart',()=>{if(running)stop()},{passive:true});
+  window.addEventListener('keydown',e=>{if(running && ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(e.key))stop()});
+})();
+
+// FINAL: reliable "Kembali ke atas" button.
+(function(){
+  const top=document.getElementById('topBtn');
+  if(!top) return;
+  top.addEventListener('click',function(e){
+    e.preventDefault();
+    window.scrollTo({top:0,left:0,behavior:'smooth'});
+  });
+})();
+</script>
+
+</body></html>
