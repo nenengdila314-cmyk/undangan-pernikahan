@@ -599,16 +599,53 @@ async function loadGuestbook(){
   }
 }
 
-async function saveGuest(n,a,m){
-  // Gunakan GET karena endpoint Apps Script sudah mendukung action=save
-  // dan ini menghindari masalah CORS/preflight POST dari GitHub Pages.
-  const url=GUEST_API+'?action=save&nama='+encodeURIComponent(n)+'&kehadiran='+encodeURIComponent(a)+'&ucapan='+encodeURIComponent(m)+'&t='+Date.now();
-  const r=await fetch(url,{method:'GET',cache:'no-store'});
-  const data=await r.json();
-  if(!data || data.ok!==true){
-    throw new Error(data&&data.error?data.error:'Google Sheet menolak penyimpanan.');
-  }
-  return data;
+function saveGuest(n,a,m){
+  return new Promise((resolve,reject)=>{
+    // Kirim POST lewat form + iframe tersembunyi agar tidak bergantung pada CORS/fetch.
+    const frameName='guestSubmit_'+Date.now();
+    const iframe=document.createElement('iframe');
+    iframe.name=frameName;
+    iframe.style.display='none';
+
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=GUEST_API;
+    form.target=frameName;
+    form.style.display='none';
+
+    [['nama',n],['kehadiran',a],['ucapan',m]].forEach(([key,value])=>{
+      const input=document.createElement('input');
+      input.type='hidden';
+      input.name=key;
+      input.value=value;
+      form.appendChild(input);
+    });
+
+    let finished=false;
+    const cleanup=()=>{
+      iframe.onload=null;
+      iframe.onerror=null;
+      form.remove();
+      setTimeout(()=>iframe.remove(),500);
+    };
+
+    iframe.onload=()=>{
+      if(finished)return;
+      finished=true;
+      cleanup();
+      resolve();
+    };
+    iframe.onerror=()=>{
+      if(finished)return;
+      finished=true;
+      cleanup();
+      reject(new Error('Pengiriman ke Google Apps Script gagal.'));
+    };
+
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+  });
 }
 
 guestForm.addEventListener('submit',async e=>{
@@ -624,11 +661,10 @@ guestForm.addEventListener('submit',async e=>{
 
   try{
     await saveGuest(n,a,m);
-    guestStatus.textContent='Ucapan berhasil disimpan. Terima kasih ♡';
-    guestForm.reset();
-    // Pastikan data benar-benar sudah terlihat dari Google Sheet sebelum status dianggap selesai.
+
+    // Verifikasi dengan membaca kembali Buku Ucapan.
     let verified=false;
-    for(let i=0;i<5;i++){
+    for(let i=0;i<10;i++){
       await new Promise(resolve=>setTimeout(resolve,700));
       try{
         const r=await fetch(GUEST_API+'?t='+Date.now(),{cache:'no-store'});
@@ -638,10 +674,27 @@ guestForm.addEventListener('submit',async e=>{
           verified=true;
           break;
         }
-      }catch(_){ }
+      }catch(_){}
     }
-    if(!verified) guestStatus.textContent='Ucapan sudah dikirim. Sedang menunggu tampil di Buku Ucapan…';
-    await loadGuestbook();
+
+    if(verified){
+      guestStatus.textContent='Ucapan berhasil disimpan. Terima kasih ♡';
+      guestForm.reset();
+      await loadGuestbook();
+    }else{
+      guestStatus.textContent='Ucapan sudah dikirim. Sedang menunggu tampil di Buku Ucapan…';
+      guestForm.reset();
+      setTimeout(loadGuestbook,1500);
+    }
+  }catch(err){
+    console.error('Save guest:',err);
+    guestStatus.textContent='Pengiriman gagal. Silakan coba lagi.';
+  }finally{
+    if(submitBtn)submitBtn.disabled=false;
+  }
+});
+
+loadGuestbook();
   }catch(err){
     console.error('Save guest:',err);
     guestStatus.textContent='Ucapan belum tersimpan. Silakan coba lagi.';
