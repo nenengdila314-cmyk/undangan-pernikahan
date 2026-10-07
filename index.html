@@ -436,6 +436,23 @@ html{scroll-behavior:auto!important}
  .premium-countdown{gap:8px!important}.premium-countdown .countbox{border-radius:14px!important}
 }
 </style>
+
+<style id="guestbook-readability-fix">
+/* Buku Ucapan — tulisan dibuat gelap agar lebih mudah dibaca */
+.guest-list .guest-item strong{
+  color:#111 !important;
+  font-weight:600;
+}
+.guest-list .guest-item .attendance{
+  color:#333 !important;
+  font-weight:600;
+}
+.guest-list .guest-item p{
+  color:#222 !important;
+  font-weight:400;
+}
+</style>
+
 </head>
 <body class="lock">
 <div class="opening" id="opening"><div class="opening-inner"><img class="logo-ih float" src="logo-ih.png" alt="Logo I & H"><div class="kicker">The Wedding Of</div><div class="couple-name">Ijel & Hera</div><div class="date">17 · 10 · 2026</div><div class="recipient">Kepada Yth. Bapak/Ibu/Saudara/i</div><button class="btn" id="openBtn">▢ &nbsp; Buka Undangan</button></div></div>
@@ -589,7 +606,8 @@ async function loadGuestbook(){
   try{
     const r=await fetch(GUEST_API+'?t='+Date.now(),{cache:'no-store'});
     const raw=await r.json();
-    const data=Array.isArray(raw)?raw:(Array.isArray(raw.data)?raw.data:[]);
+    const data=(Array.isArray(raw)?raw:(Array.isArray(raw.data)?raw.data:[]))
+      .filter(x=>String(x.nama||'').trim().toLowerCase()!=='tes');
     guestList.innerHTML=data.slice().reverse().map(x=>
       '<div class="guest-item"><strong>'+escapeHtml(x.nama)+'</strong><span class="attendance">'+escapeHtml(x.kehadiran)+'</span><p>'+escapeHtml(x.ucapan)+'</p></div>'
     ).join('')||'<div class="guest-small">Belum ada ucapan. Jadilah yang pertama ♡</div>';
